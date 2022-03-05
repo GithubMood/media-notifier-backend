@@ -1,6 +1,6 @@
-package com.media.notifier.air.alarm.impl.integration.db.repository;
+package com.media.notifier.common.database.repository;
 
-import com.media.notifier.air.alarm.impl.integration.db.exception.DbResultNotFoundException;
+import com.media.notifier.common.exception.DbResultNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 

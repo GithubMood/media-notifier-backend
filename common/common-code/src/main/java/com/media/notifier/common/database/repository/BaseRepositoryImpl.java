@@ -1,16 +1,12 @@
-package com.media.notifier.air.alarm.impl.integration.db.repository.jpa;
+package com.media.notifier.common.database.repository;
 
-import com.media.notifier.air.alarm.impl.integration.db.entity.QAirAlarmEntity;
-import com.media.notifier.air.alarm.impl.integration.db.exception.DbResultNotFoundException;
-import com.media.notifier.air.alarm.impl.integration.db.repository.BaseRepository;
+import com.media.notifier.common.exception.DbResultNotFoundException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
 import javax.persistence.EntityManager;
 
 public abstract class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
-    protected final QAirAlarmEntity airAlarm = QAirAlarmEntity.airAlarmEntity;
-
     private final EntityManager em;
     protected final JPAQueryFactory queryFactory;
 

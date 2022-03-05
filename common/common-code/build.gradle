@@ -3,4 +3,6 @@ apply from: "$rootDir/gradle/scripts/unit-test.gradle"
 dependencies {
     api "org.springframework.boot:spring-boot-starter-data-jpa"
     api project(":utils:time-utils")
+
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 }

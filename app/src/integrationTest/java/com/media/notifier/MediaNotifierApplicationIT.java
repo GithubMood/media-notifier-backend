@@ -7,5 +7,6 @@ import org.junit.jupiter.api.Test;
 class MediaNotifierApplicationIT {
     @Test
     void applicationStarts() {
+
     }
 }

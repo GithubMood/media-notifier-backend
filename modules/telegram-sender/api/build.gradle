@@ -1,3 +1,7 @@
 jar {
     baseName 'telegram-sender-api'
 }
+
+dependencies {
+    implementation project(":common:common-code")
+}
