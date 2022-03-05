@@ -29,7 +29,7 @@ public class AirAlarmEntity {
     private AirAlarmStatus status;
 
     @ToString.Include
-    private LocalDateTime alarmStarted;
+    private LocalDateTime alarmChangedAt;
 
     @ToString.Include
     private Long facebookNotificationId;

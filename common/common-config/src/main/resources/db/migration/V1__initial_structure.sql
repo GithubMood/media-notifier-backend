@@ -1,6 +1,7 @@
 create table telegram_air_alarm
 (
     `id`           bigint auto_increment primary key,
+    `type`         varchar(255) not null,
     `status`       varchar(255) not null,
     `delivered_at` datetime(6) default null
 );
@@ -8,6 +9,7 @@ create table telegram_air_alarm
 create table facebook_air_alarm
 (
     `id`           bigint auto_increment primary key,
+    `type`         varchar(255) not null,
     `status`       varchar(255) not null,
     `delivered_at` datetime(6) default null
 );
@@ -16,7 +18,7 @@ create table air_alarm
 (
     `id`                       int primary key,
     `status`                   varchar(255) not null,
-    `alarm_started`            datetime(6) default null,
+    `alarm_changed_at`         datetime(6) default null,
     `telegram_notification_id` bigint default null,
     `facebook_notification_id` bigint default null,
     constraint `fk_air_alarm_telegram_notification_id`

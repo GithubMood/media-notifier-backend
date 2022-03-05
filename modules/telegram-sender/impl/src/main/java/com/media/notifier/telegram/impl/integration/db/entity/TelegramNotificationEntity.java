@@ -1,5 +1,6 @@
 package com.media.notifier.telegram.impl.integration.db.entity;
 
+import com.media.notifier.common.alarm.dto.AlarmType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,6 +31,10 @@ public class TelegramNotificationEntity {
     @ToString.Include
     @Enumerated(EnumType.STRING)
     private NotificationStatus status;
+
+    @ToString.Include
+    @Enumerated(EnumType.STRING)
+    private AlarmType type;
 
     @ToString.Include
     private LocalDateTime deliveredAt;

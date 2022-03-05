@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AirAlarmInfo {
     Status status;
-    LocalDateTime alarmStarted;
+    LocalDateTime alarmChangedAt;
 
     Boolean facebookPublished;
     LocalDateTime facebookPublishedAt;

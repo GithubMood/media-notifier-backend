@@ -1,5 +1,6 @@
 package com.media.notifier.telegram.impl.domain;
 
+import com.media.notifier.common.alarm.dto.AlarmType;
 import com.media.notifier.common.alarm.dto.NotificationInfo;
 import com.media.notifier.telegram.api.TelegramAirAlarmNotifier;
 import com.media.notifier.telegram.impl.integration.db.entity.NotificationStatus;
@@ -14,8 +15,9 @@ public class TelegramAirAlarmNotifierImpl implements TelegramAirAlarmNotifier {
     private final TelegramNotificationRepository telegramNotificationRepository;
 
     @Override
-    public Long createNotification() {
+    public Long createNotification(AlarmType type) {
         var telegramNotification = new TelegramNotificationEntity();
+        telegramNotification.setType(type);
         telegramNotification.setStatus(NotificationStatus.WAITING_FOR_DELIVERY);
         return telegramNotificationRepository.save(telegramNotification).getId();
     }

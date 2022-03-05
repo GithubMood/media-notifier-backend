@@ -43,8 +43,19 @@ class AirAlarmUserJourneyIT {
                 .andReturn().getResponse().getContentAsString();
         var startedStatusInfo = jsonToObject(startedStatusJson, AirAlarmInfo.class);
         assertThat(startedStatusInfo.getStatus()).isEqualTo(AirAlarmInfo.Status.STARTED);
-        assertThat(startedStatusInfo.getAlarmStarted()).isNotNull();
+        assertThat(startedStatusInfo.getAlarmChangedAt()).isNotNull();
         assertThat(startedStatusInfo.getTelegramPublished()).isNotNull();
+
+        mockMvc.perform(put("/air_alarm/stop"))
+                .andExpect(status().isOk());
+
+        var stoppedStatusJson = mockMvc.perform(get("/air_alarm/status"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        var stoppedStatusInfo = jsonToObject(stoppedStatusJson, AirAlarmInfo.class);
+        assertThat(stoppedStatusInfo.getStatus()).isEqualTo(AirAlarmInfo.Status.STOPPED);
+        assertThat(stoppedStatusInfo.getAlarmChangedAt()).isNotNull();
+        assertThat(stoppedStatusInfo.getTelegramPublished()).isNotNull();
     }
 
     public <T> T jsonToObject(String json, Class<T> type) {

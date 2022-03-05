@@ -2,8 +2,10 @@ package com.media.notifier.air.alarm.impl.domain.service;
 
 import com.example.util.time.Time;
 import com.media.notifier.air.alarm.impl.domain.model.AirAlarmInfo;
+import com.media.notifier.air.alarm.impl.integration.db.entity.AirAlarmEntity;
 import com.media.notifier.air.alarm.impl.integration.db.entity.AirAlarmStatus;
 import com.media.notifier.air.alarm.impl.integration.db.repository.AirAlarmRepository;
+import com.media.notifier.common.alarm.dto.AlarmType;
 import com.media.notifier.telegram.api.TelegramAirAlarmNotifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,9 @@ public class AirAlarmService {
     public void startAirAlarm() {
         var airAlarm = airAlarmRepository.findAirAlarm();
 
-        var telegramNotificationId = telegramAirAlarmNotifier.createNotification();
 
-        airAlarm.setStatus(STARTED);
-        airAlarm.setAlarmStarted(Time.currentDateTime());
-        airAlarm.setTelegramNotificationId(telegramNotificationId);
+        updateAlarm(airAlarm, STARTED);
+        createNewTelegramNotification(airAlarm, AlarmType.START);
 
         airAlarmRepository.save(airAlarm);
     }
@@ -35,8 +35,10 @@ public class AirAlarmService {
     @Transactional
     public void stopAirAlarm() {
         var airAlarm = airAlarmRepository.findAirAlarm();
-        airAlarm.setStatus(STOPPED);
-        telegramAirAlarmNotifier.cancelAllNotification();
+
+        updateAlarm(airAlarm, STOPPED);
+        createNewTelegramNotification(airAlarm, AlarmType.STOP);
+
         airAlarmRepository.save(airAlarm);
     }
 
@@ -47,20 +49,33 @@ public class AirAlarmService {
                 .status(status)
                 .build();
 
-        if (status == AirAlarmInfo.Status.STARTED) {
-            alarmInfo.setAlarmStarted(airAlarm.getAlarmStarted());
+        alarmInfo.setAlarmChangedAt(airAlarm.getAlarmChangedAt());
 
-            var telegramNotificationId = airAlarm.getTelegramNotificationId();
-            populateTelegramInfo(alarmInfo, telegramNotificationId);
+        var telegramNotificationId = airAlarm.getTelegramNotificationId();
+        populateTelegramInfo(alarmInfo, telegramNotificationId);
 
 //            var facebookNotificationId = airAlarm.getFacebookNotificationId();
 //            populateFacebookInfo(alarmInfo, facebookNotificationId);
-        }
 
         return alarmInfo;
     }
 
+    private void updateAlarm(AirAlarmEntity airAlarm, AirAlarmStatus status) {
+        airAlarm.setStatus(status);
+        airAlarm.setAlarmChangedAt(Time.currentDateTime());
+    }
+
+    private void createNewTelegramNotification(AirAlarmEntity airAlarm, AlarmType type) {
+        telegramAirAlarmNotifier.cancelAllNotification();
+        var telegramNotificationId = telegramAirAlarmNotifier.createNotification(type);
+        airAlarm.setTelegramNotificationId(telegramNotificationId);
+    }
+
     private void populateTelegramInfo(AirAlarmInfo alarmInfo, Long telegramNotificationId) {
+        if (telegramNotificationId == null) {
+            return;
+        }
+
         var telegramInfo = telegramAirAlarmNotifier.checkNotification(telegramNotificationId);
 
         alarmInfo.setTelegramPublished(telegramInfo.isSent());

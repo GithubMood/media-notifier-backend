@@ -2,6 +2,7 @@ package com.media.notifier.air.alarm.impl.integration.db.repository;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.spring.api.DBRider;
+import com.media.notifier.air.alarm.impl.integration.db.entity.AirAlarmStatus;
 import com.media.notifier.integratoin.test.config.initializer.MySqlContainerInitializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,6 @@ class AirAlarmStatusRepositoryIT {
 
         //THEN
         assertThat(airAlarm).isNotNull();
-        assertThat(airAlarm.getStatus()).isEqualTo("STOPPED");
+        assertThat(airAlarm.getStatus()).isEqualTo(AirAlarmStatus.STOPPED);
     }
 }

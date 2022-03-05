@@ -30,7 +30,7 @@ class AirAlarmControllerIT {
         //GIVEN
         var airAlarmStatus = AirAlarmInfo.builder()
                 .status(AirAlarmInfo.Status.STARTED)
-                .alarmStarted(LocalDateTime.of(1998, Month.APRIL, 1, 12, 45))
+                .alarmChangedAt(LocalDateTime.of(1998, Month.APRIL, 1, 12, 45))
                 .build();
         given(airAlarmService.getAlarmInfo()).willReturn(airAlarmStatus);
 
@@ -39,7 +39,7 @@ class AirAlarmControllerIT {
                 //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("status", is("STARTED")))
-                .andExpect(jsonPath("alarm_started", is("1998-04-01T12:45:00")))
+                .andExpect(jsonPath("alarm_changed_at", is("1998-04-01T12:45:00")))
                 .andDo(createRestDoc("air_alarm_get_status"));
     }
 }

@@ -1,3 +1,5 @@
 <dataset>
     <air_alarm id="1" status="STOPPED"/>
+    <telegram_air_alarm/>
+    <facebook_air_alarm/>
 </dataset>
