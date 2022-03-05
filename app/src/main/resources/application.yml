@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    include:
+      air-alarm,
+      api-gateway,
+      authentication,
+      facebook-sender,
+      telegram-sender

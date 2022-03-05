@@ -1,0 +1,20 @@
+apply from: "$rootDir/gradle/scripts/unit-test.gradle"
+apply from: "$rootDir/gradle/scripts/integration-test.gradle"
+apply from: "$rootDir/gradle/scripts/query-dsl.gradle"
+
+dependencies {
+    implementation project(":common:common-code")
+    implementation project(":common:common-config")
+    implementation project(":modules:air-alarm:api")
+    implementation project(":modules:air-alarm:impl")
+    implementation project(":modules:authentication:api")
+    implementation project(":modules:authentication:impl")
+    implementation project(":modules:facebook-sender:api")
+    implementation project(":modules:facebook-sender:impl")
+    implementation project(":modules:telegram-sender:api")
+    implementation project(":modules:telegram-sender:impl")
+    implementation project(":modules:api-gateway:api")
+    implementation project(":modules:api-gateway:impl")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
