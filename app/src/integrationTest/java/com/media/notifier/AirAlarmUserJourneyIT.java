@@ -38,16 +38,21 @@ class AirAlarmUserJourneyIT {
         mockMvc.perform(put("/air_alarm/start"))
                 .andExpect(status().isOk());
 
+        Thread.sleep(1100);
+
         var startedStatusJson = mockMvc.perform(get("/air_alarm/status"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         var startedStatusInfo = jsonToObject(startedStatusJson, AirAlarmInfo.class);
         assertThat(startedStatusInfo.getStatus()).isEqualTo(AirAlarmInfo.Status.STARTED);
         assertThat(startedStatusInfo.getAlarmChangedAt()).isNotNull();
-        assertThat(startedStatusInfo.getTelegramPublished()).isNotNull();
+        assertThat(startedStatusInfo.getTelegramPublished()).isTrue();
+        assertThat(startedStatusInfo.getTelegramPublishedAt()).isNotNull();
 
         mockMvc.perform(put("/air_alarm/stop"))
                 .andExpect(status().isOk());
+
+        Thread.sleep(1100);
 
         var stoppedStatusJson = mockMvc.perform(get("/air_alarm/status"))
                 .andExpect(status().isOk())
@@ -55,7 +60,8 @@ class AirAlarmUserJourneyIT {
         var stoppedStatusInfo = jsonToObject(stoppedStatusJson, AirAlarmInfo.class);
         assertThat(stoppedStatusInfo.getStatus()).isEqualTo(AirAlarmInfo.Status.STOPPED);
         assertThat(stoppedStatusInfo.getAlarmChangedAt()).isNotNull();
-        assertThat(stoppedStatusInfo.getTelegramPublished()).isNotNull();
+        assertThat(startedStatusInfo.getTelegramPublished()).isTrue();
+        assertThat(startedStatusInfo.getTelegramPublishedAt()).isNotNull();
     }
 
     public <T> T jsonToObject(String json, Class<T> type) {
