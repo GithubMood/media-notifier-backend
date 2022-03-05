@@ -1,5 +1,6 @@
 package com.media.notifier.author.impl.integration.db.repository;
 
+import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.spring.api.DBRider;
 import com.media.notifier.integratoin.test.config.initializer.MySqlContainerInitializer;
 import org.junit.jupiter.api.Test;
@@ -24,14 +25,16 @@ class AirAlarmStatusRepositoryIT {
     private AirAlarmRepository airAlarmRepository;
 
     @Test
-    void findById() {
+    @DataSet("dataset/air_alarm.xml")
+    void findAirAlarm() {
         //GIVEN
         var id = 1L;
 
         //WHEN
-        var result = airAlarmRepository.findById(id);
+        var airAlarm = airAlarmRepository.findAirAlarm();
 
         //THEN
-        assertThat(result).isNotEmpty();
+        assertThat(airAlarm).isNotNull();
+        assertThat(airAlarm.getStatus()).isEqualTo("STOPPED");
     }
 }

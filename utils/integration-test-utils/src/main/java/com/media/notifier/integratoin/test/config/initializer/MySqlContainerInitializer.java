@@ -10,6 +10,7 @@ public class MySqlContainerInitializer implements ApplicationContextInitializer<
             .withUsername("admin")
             .withPassword("admin")
             .withDatabaseName("media-notification")
+            .withReuse(true)
             .withLabel("group", "media-notification-db");
 
     @Override
