@@ -1,3 +1,7 @@
+jar {
+    baseName 'authentication-api'
+}
+
 dependencies {
     api project(":common:common-code")
 }

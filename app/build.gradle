@@ -1,6 +1,24 @@
 apply from: "$rootDir/gradle/scripts/unit-test.gradle"
 apply from: "$rootDir/gradle/scripts/integration-test.gradle"
 apply from: "$rootDir/gradle/scripts/query-dsl.gradle"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.palantir.git-version'
+
+ext {
+    appName = "media-notifier"
+    appVersion = "1.0.0"
+}
+
+bootJar {
+    mainClass = "com.media.notifier.MediaNotifierApplication"
+    archiveFileName = "${appName}-${appVersion}.${archiveExtension.get()}"
+}
+
+bootBuildImage {
+    def gitDetails = versionDetails()
+    def now = new Date().format('yyyyMMddHHmmss')
+    imageName = "docker.io/library/${appName}:${appVersion}--${now}-${gitDetails.gitHash}"
+}
 
 dependencies {
     implementation project(":common:common-code")
