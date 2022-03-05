@@ -6,6 +6,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +18,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "air_alarm")
+@Table(name = "telegram_air_alarm")
 @Accessors(chain = true)
 @ToString(onlyExplicitlyIncluded = true)
 public class TelegramNotificationEntity {
@@ -26,10 +28,11 @@ public class TelegramNotificationEntity {
     private Long id;
 
     @ToString.Include
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private NotificationStatus status;
 
     @ToString.Include
-    private LocalDateTime delivered_at;
+    private LocalDateTime deliveredAt;
 
 
     @Override

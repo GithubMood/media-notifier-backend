@@ -1,6 +1,6 @@
 package com.media.notifier.air.alarm.impl.web;
 
-import com.media.notifier.air.alarm.impl.domain.model.AirAlarmStatus;
+import com.media.notifier.air.alarm.impl.domain.model.AirAlarmInfo;
 import com.media.notifier.air.alarm.impl.domain.service.AirAlarmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -26,7 +26,7 @@ public class AirAlarmController {
     }
 
     @GetMapping(value = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
-    public AirAlarmStatus getAlarmStatus() {
-        return airAlarmService.getAlarmStatus();
+    public AirAlarmInfo getAlarmStatus() {
+        return airAlarmService.getAlarmInfo();
     }
 }

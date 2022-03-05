@@ -6,6 +6,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
@@ -23,11 +25,17 @@ public class AirAlarmEntity {
     private Long id;
 
     @ToString.Include
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private AirAlarmStatus status;
 
     @ToString.Include
     private LocalDateTime alarmStarted;
 
+    @ToString.Include
+    private Long facebookNotificationId;
+
+    @ToString.Include
+    private Long telegramNotificationId;
 
     @Override
     public boolean equals(Object o) {

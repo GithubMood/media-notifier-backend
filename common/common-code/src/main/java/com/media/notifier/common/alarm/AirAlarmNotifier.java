@@ -1,9 +1,11 @@
 package com.media.notifier.common.alarm;
 
-import com.media.notifier.common.alarm.dto.AlarmInfo;
+import com.media.notifier.common.alarm.dto.NotificationInfo;
 
 public interface AirAlarmNotifier {
     Long createNotification();
 
-    AlarmInfo checkNotification(Long notificationId);
+    void cancelAllNotification();
+
+    NotificationInfo checkNotification(Long notificationId);
 }

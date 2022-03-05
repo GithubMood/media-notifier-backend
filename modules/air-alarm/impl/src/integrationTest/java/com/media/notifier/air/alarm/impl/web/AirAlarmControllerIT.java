@@ -1,7 +1,7 @@
 package com.media.notifier.air.alarm.impl.web;
 
 import com.media.notifier.air.alarm.impl.config.annotation.slices.RestControllerTest;
-import com.media.notifier.air.alarm.impl.domain.model.AirAlarmStatus;
+import com.media.notifier.air.alarm.impl.domain.model.AirAlarmInfo;
 import com.media.notifier.air.alarm.impl.domain.service.AirAlarmService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RestControllerTest(AirAlarmController.class)
-class PredefinedAirAlarmControllerIT {
+class AirAlarmControllerIT {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -28,11 +28,11 @@ class PredefinedAirAlarmControllerIT {
     @Test
     void getAirAlarmStatus() throws Exception {
         //GIVEN
-        var airAlarmStatus = AirAlarmStatus.builder()
-                .status(AirAlarmStatus.Status.STARTED)
+        var airAlarmStatus = AirAlarmInfo.builder()
+                .status(AirAlarmInfo.Status.STARTED)
                 .alarmStarted(LocalDateTime.of(1998, Month.APRIL, 1, 12, 45))
                 .build();
-        given(airAlarmService.getAlarmStatus()).willReturn(airAlarmStatus);
+        given(airAlarmService.getAlarmInfo()).willReturn(airAlarmStatus);
 
         //WHEN
         mockMvc.perform(get("/air_alarm/status"))

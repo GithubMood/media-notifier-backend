@@ -16,11 +16,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AirAlarmStatus {
+public class AirAlarmInfo {
     Status status;
     LocalDateTime alarmStarted;
+
     Boolean facebookPublished;
+    LocalDateTime facebookPublishedAt;
+
     Boolean telegramPublished;
+    LocalDateTime telegramPublishedAt;
 
     public enum Status {
         STARTED,

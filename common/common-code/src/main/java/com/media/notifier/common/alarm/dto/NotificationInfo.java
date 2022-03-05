@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AlarmInfo {
+public class NotificationInfo {
     boolean sent;
-    LocalDateTime sentAt;
+    LocalDateTime deliveredAt;
 }
