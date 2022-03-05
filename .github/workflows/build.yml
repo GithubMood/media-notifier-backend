@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  workflow_call:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout project
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Gradle Build
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build --no-daemon
+
+      - name: Publish Test Results
+        uses: mikepenz/action-junit-report@v2
+        if: always()
+        with:
+          report_paths: '**/build/test-results/**/*.xml'
+          check_name: 'Test Results'
+
+      - name: Archive test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test report
+          path: '**/build/reports/tests/**/*'

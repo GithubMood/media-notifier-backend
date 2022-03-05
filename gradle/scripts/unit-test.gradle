@@ -1,0 +1,10 @@
+dependencies {
+    testImplementation project(":utils:unit-test-utils")
+    testImplementation "org.assertj:assertj-core"
+    testImplementation "org.junit.jupiter:junit-jupiter"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging.exceptionFormat 'full'
+}

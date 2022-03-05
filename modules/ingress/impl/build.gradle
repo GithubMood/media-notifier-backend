@@ -1,0 +1,7 @@
+apply from: "$rootDir/gradle/scripts/unit-test.gradle"
+apply from: "$rootDir/gradle/scripts/integration-test.gradle"
+
+dependencies {
+    implementation project(":common:common-code")
+    implementation project(":common:common-config")
+}

@@ -1,0 +1,13 @@
+dependencies {
+    implementation project(":utils:unit-test-utils")
+    implementation project(":common:common-code")
+    implementation project(":common:common-config")
+    implementation "org.testcontainers:mysql"
+
+    //todo: Move version to the parameters
+    api "com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0"
+    api 'com.github.database-rider:rider-spring:1.32.3'
+
+    api "org.springframework.boot:spring-boot-starter-test"
+    api "org.springframework.restdocs:spring-restdocs-mockmvc"
+}

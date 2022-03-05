@@ -1,0 +1,40 @@
+sourceSets {
+    integrationTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom implementation
+    integrationTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+dependencies {
+    integrationTestImplementation project(":utils:integration-test-utils")
+    integrationTestImplementation "org.springframework.boot:spring-boot-starter-test"
+}
+
+tasks.register('integrationTest', Test) {
+    useJUnitPlatform()
+    description = 'Runs integration tests'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter test
+
+    testLogging.exceptionFormat 'full'
+}
+
+apply plugin: 'idea'
+idea {
+    module {
+        testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
+        testSourceDirs += project.sourceSets.integrationTest.resources.srcDirs
+    }
+}
+
+check.dependsOn integrationTest
+
+

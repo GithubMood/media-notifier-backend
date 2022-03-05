@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(":utils:time-utils")
+    implementation "org.junit.jupiter:junit-jupiter"
+}

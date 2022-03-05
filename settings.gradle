@@ -1,0 +1,15 @@
+rootProject.name = 'modular-monolith-example'
+include "utils:time-utils",
+        "utils:unit-test-utils",
+        "common:common-code",
+        "common:common-config",
+        "utils:integration-test-utils",
+        "modules:authentication:api",
+        "modules:authentication:impl",
+        "modules:ingress:api",
+        "modules:ingress:impl",
+        "modules:telegram-sender",
+        "modules:facebook-sender",
+        "modules:api-gateway:api",
+        "modules:api-gateway:impl",
+        "app"
