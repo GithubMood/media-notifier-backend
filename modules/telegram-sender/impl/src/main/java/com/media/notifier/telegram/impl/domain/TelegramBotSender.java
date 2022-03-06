@@ -13,12 +13,15 @@ import java.net.URL;
 import java.net.URLConnection;
 
 @Service
-@RequiredArgsConstructor
 public class TelegramBotSender {
-    @Value("${telegram.bot.token}")
     private final String telegramBotToken;
-    @Value("${telegram.chat.id}")
     private final String telegramChatId;
+
+    public TelegramBotSender(@Value("${telegram.bot.token}") String telegramBotToken,
+                             @Value("${telegram.chat.id}") String telegramChatId) {
+        this.telegramBotToken = telegramBotToken;
+        this.telegramChatId = telegramChatId;
+    }
 
     public void sendMessage(String message) {
         try {

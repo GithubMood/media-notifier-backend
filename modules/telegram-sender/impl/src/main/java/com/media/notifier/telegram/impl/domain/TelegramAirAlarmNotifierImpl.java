@@ -2,10 +2,10 @@ package com.media.notifier.telegram.impl.domain;
 
 import com.media.notifier.common.alarm.dto.AlarmType;
 import com.media.notifier.common.alarm.dto.NotificationInfo;
-import com.media.notifier.telegram.api.TelegramAirAlarmNotifier;
-import com.media.notifier.telegram.impl.integration.db.entity.NotificationStatus;
 import com.media.notifier.telegram.impl.integration.db.entity.TelegramNotificationEntity;
+import com.media.notifier.telegram.impl.integration.db.entity.NotificationStatus;
 import com.media.notifier.telegram.impl.integration.db.repository.TelegramNotificationRepository;
+import com.media.notifier.telegram.api.TelegramAirAlarmNotifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

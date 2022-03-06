@@ -25,7 +25,6 @@ public class AirAlarmService {
     public void startAirAlarm() {
         var airAlarm = airAlarmRepository.findAirAlarm();
 
-
         updateAlarm(airAlarm, STARTED);
         createNewTelegramNotification(airAlarm, AlarmType.START);
 

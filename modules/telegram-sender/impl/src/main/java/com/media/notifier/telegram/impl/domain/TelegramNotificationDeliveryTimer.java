@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class NotificationDeliveryTimer {
+public class TelegramNotificationDeliveryTimer {
     private final TelegramNotificationRepository telegramNotificationRepository;
     private final TelegramMessageSender telegramMessageSender;
     private final LeaderElectionService leaderElectionService;

@@ -1,3 +1,13 @@
+apply from: "$rootDir/gradle/scripts/unit-test.gradle"
+apply from: "$rootDir/gradle/scripts/integration-test.gradle"
+apply from: "$rootDir/gradle/scripts/query-dsl.gradle"
+
 jar {
     baseName 'facebook-sender-impl'
+}
+
+dependencies {
+    implementation project(":common:common-code")
+    implementation project(":common:common-config")
+    implementation project(":modules:facebook-sender:api")
 }
