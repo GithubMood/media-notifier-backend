@@ -36,7 +36,7 @@ class AirAlarmUserJourneyIT {
         mockMvc.perform(put("/air_alarm/start"))
                 .andExpect(status().isOk());
 
-        Thread.sleep(1100);
+        Thread.sleep(3000);
 
         var startedStatusJson = mockMvc.perform(get("/air_alarm/status"))
                 .andExpect(status().isOk())
@@ -50,7 +50,7 @@ class AirAlarmUserJourneyIT {
         mockMvc.perform(put("/air_alarm/stop"))
                 .andExpect(status().isOk());
 
-        Thread.sleep(1100);
+        Thread.sleep(3000);
 
         var stoppedStatusJson = mockMvc.perform(get("/air_alarm/status"))
                 .andExpect(status().isOk())

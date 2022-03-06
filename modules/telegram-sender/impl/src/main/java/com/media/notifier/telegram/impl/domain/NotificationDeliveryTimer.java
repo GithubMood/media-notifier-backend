@@ -25,7 +25,11 @@ public class NotificationDeliveryTimer {
             return;
         }
 
-        telegramNotificationRepository.findNotificationForSend()
-                .ifPresent(telegramMessageSender::sendMessage);
+        try {
+            telegramNotificationRepository.findNotificationForSend()
+                    .ifPresent(telegramMessageSender::sendMessage);
+        } catch (Exception e) {
+            log.error("Unable to deliver telegram message: ", e);
+        }
     }
 }
