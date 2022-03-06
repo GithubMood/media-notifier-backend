@@ -3,7 +3,6 @@ package com.media.notifier.annotation.slices;
 import com.github.database.rider.spring.api.DBRider;
 import com.media.notifier.config.MockBeansConfiguration;
 import com.media.notifier.integratoin.test.config.initializer.MySqlContainerInitializer;
-import com.media.notifier.integratoin.test.config.initializer.RedisContainerInitializer;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +30,7 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 @AutoConfigureTestDatabase(replace = NONE)
 @AutoConfigureMockMvc
-@ContextConfiguration(initializers = {MySqlContainerInitializer.class, RedisContainerInitializer.class})
+@ContextConfiguration(initializers = {MySqlContainerInitializer.class})
 @Import(value = {
         MockBeansConfiguration.class
 })

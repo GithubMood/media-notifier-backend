@@ -1,9 +1,0 @@
-spring:
-  redis:
-    redisson:
-      config: |
-        singleServerConfig:
-          clientName: media-notifier-client
-          address: ${REDIS_ADDRESS:'redis://localhost:6379'}
-          password: ${REDIS_PASSWORD:admin}
-        codec: !<org.redisson.client.codec.StringCodec> {}

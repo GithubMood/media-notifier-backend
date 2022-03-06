@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ActiveProfiles({"common", "redisson", "test", "facebook-sender"})
+@ActiveProfiles({"common", "test", "facebook-sender"})
 public @interface ModuleProfiles {
 }

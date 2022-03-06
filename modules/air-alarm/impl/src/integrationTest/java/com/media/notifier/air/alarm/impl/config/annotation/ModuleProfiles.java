@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ActiveProfiles({"common", "redisson", "test", "air-alarm"})
+@ActiveProfiles({"common", "test", "air-alarm"})
 public @interface ModuleProfiles {
 }

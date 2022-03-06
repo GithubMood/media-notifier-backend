@@ -3,7 +3,6 @@ package com.media.notifier.facebook.impl.config.annotation.slices;
 import com.github.database.rider.spring.api.DBRider;
 import com.media.notifier.facebook.impl.config.annotation.ModuleProfiles;
 import com.media.notifier.integratoin.test.config.initializer.MySqlContainerInitializer;
-import com.media.notifier.integratoin.test.config.initializer.RedisContainerInitializer;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -27,7 +26,7 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 @DBRider
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 @AutoConfigureTestDatabase(replace = NONE)
-@ContextConfiguration(initializers = {MySqlContainerInitializer.class, RedisContainerInitializer.class})
+@ContextConfiguration(initializers = {MySqlContainerInitializer.class})
 @ModuleProfiles
 public @interface ApplicationTest {
 }

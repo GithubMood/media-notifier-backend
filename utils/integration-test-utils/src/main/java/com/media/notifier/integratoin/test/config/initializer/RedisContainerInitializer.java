@@ -1,6 +1,5 @@
 package com.media.notifier.integratoin.test.config.initializer;
 
-import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.GenericContainer;
@@ -17,10 +16,6 @@ public class RedisContainerInitializer implements ApplicationContextInitializer<
     @Override
     public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
         redisContainer.start();
-//        TestPropertyValues.of(
-//                "spring.redis.redisson.config.singleServerConfig.address=" + buildRedisAddress()
-//        ).applyTo(configurableApplicationContext.getEnvironment());
-
         configurableApplicationContext.getEnvironment().getSystemProperties()
                 .put("REDIS_ADDRESS", buildRedisAddress());
     }
