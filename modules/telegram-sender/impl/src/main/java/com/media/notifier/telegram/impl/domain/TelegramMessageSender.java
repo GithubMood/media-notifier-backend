@@ -2,6 +2,7 @@ package com.media.notifier.telegram.impl.domain;
 
 import com.example.util.time.Time;
 import com.media.notifier.common.alarm.dto.AlarmType;
+import com.media.notifier.common.utils.ClassPathReader;
 import com.media.notifier.telegram.impl.integration.db.entity.NotificationStatus;
 import com.media.notifier.telegram.impl.integration.db.entity.TelegramNotificationEntity;
 import com.media.notifier.telegram.impl.integration.db.repository.TelegramNotificationRepository;
@@ -17,8 +18,8 @@ public class TelegramMessageSender {
     private final TelegramBotSender telegramBotSender;
     private final TelegramNotificationTerminateService telegramNotificationTerminateService;
 
-    private static final String AIR_ALARM_START = "❗❗❗Повітряна тривога❗❗❗Всім спуститися в укриття❗❗❗";
-    private static final String AIR_ALARM_STOP = "⚠️Відбій повітряної тривоги⚠️";
+    private static final String AIR_ALARM_START = ClassPathReader.readFile("messages/telegram_start_alarm.txt");
+    private static final String AIR_ALARM_STOP = ClassPathReader.readFile("messages/telegram_stop_alarm.txt");
 
     @Transactional
     public void sendMessage(TelegramNotificationEntity entity) {
