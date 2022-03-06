@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 public class TelegramMessageSender {
     private final TelegramNotificationRepository telegramNotificationRepository;
     private final TelegramBotSender telegramBotSender;
+    private final TelegramNotificationTerminateService telegramNotificationTerminateService;
 
     private static final String AIR_ALARM_START = "❗❗❗Повітряна тривога❗❗❗Всім спуститися в укриття❗❗❗";
     private static final String AIR_ALARM_STOP = "⚠️Відбій повітряної тривоги⚠️";
@@ -24,7 +25,12 @@ public class TelegramMessageSender {
         var telegramNotificationEntity = telegramNotificationRepository.findByIdMandatory(entity.getId());
 
         var message = getMessage(entity);
-        telegramBotSender.sendMessage(message);
+        try {
+            telegramBotSender.sendMessage(message);
+        } catch (Exception e) {
+            telegramNotificationTerminateService.terminateNotification(telegramNotificationEntity.getId());
+            throw e;
+        }
 
         telegramNotificationEntity.setStatus(NotificationStatus.DELIVERED);
         telegramNotificationEntity.setDeliveredAt(Time.currentDateTime());

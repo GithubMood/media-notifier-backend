@@ -1,6 +1,9 @@
 package com.media.notifier.telegram.impl.domain;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedInputStream;
@@ -10,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+@Slf4j
 @Service
 public class TelegramBotSender {
     private final String telegramBotToken;
@@ -21,6 +25,9 @@ public class TelegramBotSender {
         this.telegramChatId = telegramChatId;
     }
 
+    @Retryable(value = Exception.class,
+            maxAttempts = 10,
+            backoff = @Backoff(delay = 5000))
     public void sendMessage(String message) {
         try {
             String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";

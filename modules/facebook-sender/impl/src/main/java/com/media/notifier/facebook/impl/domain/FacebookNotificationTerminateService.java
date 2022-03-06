@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class NotificationTerminateService {
+public class FacebookNotificationTerminateService {
     private final FacebookNotificationRepository facebookNotificationRepository;
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)

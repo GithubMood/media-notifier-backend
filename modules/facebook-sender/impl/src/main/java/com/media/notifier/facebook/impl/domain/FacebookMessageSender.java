@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 public class FacebookMessageSender {
     private final FacebookNotificationRepository facebookNotificationRepository;
     private final FacebookSender facebookBotSender;
-    private final NotificationTerminateService notificationTerminateService;
+    private final FacebookNotificationTerminateService facebookNotificationTerminateService;
 
 
     private static final String AIR_ALARM_START = "❗❗❗Повітряна тривога❗❗❗" +
@@ -36,7 +36,7 @@ public class FacebookMessageSender {
         try {
             facebookBotSender.sendMessage(messageWithDate);
         } catch (Exception e) {
-            notificationTerminateService.terminateNotification(facebookNotificationEntity.getId());
+            facebookNotificationTerminateService.terminateNotification(facebookNotificationEntity.getId());
             throw e;
         }
 
