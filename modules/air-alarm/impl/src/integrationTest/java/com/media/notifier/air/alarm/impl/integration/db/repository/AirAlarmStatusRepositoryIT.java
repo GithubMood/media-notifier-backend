@@ -2,6 +2,7 @@ package com.media.notifier.air.alarm.impl.integration.db.repository;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.spring.api.DBRider;
+import com.media.notifier.air.alarm.impl.config.annotation.slices.PersistenceTest;
 import com.media.notifier.air.alarm.impl.integration.db.entity.AirAlarmStatus;
 import com.media.notifier.integratoin.test.config.initializer.MySqlContainerInitializer;
 import org.junit.jupiter.api.Test;
@@ -15,12 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
-//@PersistenceTest
-@DataJpaTest(showSql = false)
-@DBRider
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
-@AutoConfigureTestDatabase(replace = NONE)
-@ContextConfiguration(initializers = {MySqlContainerInitializer.class})
+@PersistenceTest
 class AirAlarmStatusRepositoryIT {
     @Autowired
     private AirAlarmRepository airAlarmRepository;

@@ -5,4 +5,5 @@ dependencies {
     api project(":utils:time-utils")
 
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
 }
