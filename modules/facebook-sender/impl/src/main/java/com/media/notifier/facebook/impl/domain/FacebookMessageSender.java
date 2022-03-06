@@ -6,16 +6,20 @@ import com.media.notifier.facebook.impl.integration.db.entity.FacebookNotificati
 import com.media.notifier.facebook.impl.integration.db.entity.NotificationStatus;
 import com.media.notifier.facebook.impl.integration.db.repository.FacebookNotificationRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.format.DateTimeFormatter;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FacebookMessageSender {
     private final FacebookNotificationRepository facebookNotificationRepository;
     private final FacebookSender facebookBotSender;
+    private final NotificationTerminateService notificationTerminateService;
+
 
     private static final String AIR_ALARM_START = "❗❗❗Повітряна тривога❗❗❗" +
             "Всім спуститися в укриття❗❗❗" +
@@ -29,7 +33,12 @@ public class FacebookMessageSender {
 
         var message = getMessage(entity);
         var messageWithDate = addDateTime(message);
-        facebookBotSender.sendMessage(messageWithDate);
+        try {
+            facebookBotSender.sendMessage(messageWithDate);
+        } catch (Exception e) {
+            notificationTerminateService.terminateNotification(facebookNotificationEntity.getId());
+            throw e;
+        }
 
         facebookNotificationEntity.setStatus(NotificationStatus.DELIVERED);
         facebookNotificationEntity.setDeliveredAt(Time.currentDateTime());
