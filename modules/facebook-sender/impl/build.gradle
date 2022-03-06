@@ -10,4 +10,7 @@ dependencies {
     implementation project(":common:common-code")
     implementation project(":common:common-config")
     implementation project(":modules:facebook-sender:api")
+
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+    implementation 'com.restfb:restfb:2022.3.1'
 }

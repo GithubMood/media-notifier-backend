@@ -9,27 +9,37 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
 public class FacebookMessageSender {
     private final FacebookNotificationRepository facebookNotificationRepository;
-    private final FacebookBotSender facebookBotSender;
+    private final FacebookSender facebookBotSender;
 
-    private static final String AIR_ALARM_START = "❗❗❗Повітряна тривога❗❗❗Всім спуститися в укриття❗❗❗";
-    private static final String AIR_ALARM_STOP = "⚠️Відбій повітряної тривоги⚠️";
+    private static final String AIR_ALARM_START = "❗❗❗Повітряна тривога❗❗❗" +
+            "Всім спуститися в укриття❗❗❗" +
+            "Час: ";
+    private static final String AIR_ALARM_STOP = "⚠️Відбій повітряної тривоги⚠️" +
+            "Час: ";
 
     @Transactional
     public void sendMessage(FacebookNotificationEntity entity) {
         var facebookNotificationEntity = facebookNotificationRepository.findByIdMandatory(entity.getId());
 
         var message = getMessage(entity);
-        facebookBotSender.sendMessage(message);
+        var messageWithDate = addDateTime(message);
+        facebookBotSender.sendMessage(messageWithDate);
 
         facebookNotificationEntity.setStatus(NotificationStatus.DELIVERED);
         facebookNotificationEntity.setDeliveredAt(Time.currentDateTime());
 
         facebookNotificationRepository.save(facebookNotificationEntity);
+    }
+
+    private String addDateTime(String message) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return message + Time.currentDateTime().format(formatter);
     }
 
     private String getMessage(FacebookNotificationEntity entity) {

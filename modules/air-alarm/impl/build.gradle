@@ -10,4 +10,5 @@ dependencies {
     implementation project(":common:common-code")
     implementation project(":common:common-config")
     implementation project(":modules:telegram-sender:api")
+    implementation project(":modules:facebook-sender:api")
 }

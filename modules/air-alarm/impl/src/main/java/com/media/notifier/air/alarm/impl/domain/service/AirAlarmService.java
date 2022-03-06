@@ -6,6 +6,7 @@ import com.media.notifier.air.alarm.impl.integration.db.entity.AirAlarmEntity;
 import com.media.notifier.air.alarm.impl.integration.db.entity.AirAlarmStatus;
 import com.media.notifier.air.alarm.impl.integration.db.repository.AirAlarmRepository;
 import com.media.notifier.common.alarm.dto.AlarmType;
+import com.media.notifier.facebook.api.FacebookAirAlarmNotifier;
 import com.media.notifier.telegram.api.TelegramAirAlarmNotifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import static com.media.notifier.air.alarm.impl.integration.db.entity.AirAlarmSt
 public class AirAlarmService {
     private final AirAlarmRepository airAlarmRepository;
     private final TelegramAirAlarmNotifier telegramAirAlarmNotifier;
+    private final FacebookAirAlarmNotifier facebookAirAlarmNotifier;
 
     @Transactional
     public void startAirAlarm() {
@@ -27,6 +29,7 @@ public class AirAlarmService {
 
         updateAlarm(airAlarm, STARTED);
         createNewTelegramNotification(airAlarm, AlarmType.START);
+        createNewFacebookNotification(airAlarm, AlarmType.START);
 
         airAlarmRepository.save(airAlarm);
     }
@@ -37,6 +40,7 @@ public class AirAlarmService {
 
         updateAlarm(airAlarm, STOPPED);
         createNewTelegramNotification(airAlarm, AlarmType.STOP);
+        createNewFacebookNotification(airAlarm, AlarmType.STOP);
 
         airAlarmRepository.save(airAlarm);
     }
@@ -53,8 +57,8 @@ public class AirAlarmService {
         var telegramNotificationId = airAlarm.getTelegramNotificationId();
         populateTelegramInfo(alarmInfo, telegramNotificationId);
 
-//            var facebookNotificationId = airAlarm.getFacebookNotificationId();
-//            populateFacebookInfo(alarmInfo, facebookNotificationId);
+        var facebookNotificationId = airAlarm.getFacebookNotificationId();
+        populateFacebookInfo(alarmInfo, facebookNotificationId);
 
         return alarmInfo;
     }
@@ -70,6 +74,12 @@ public class AirAlarmService {
         airAlarm.setTelegramNotificationId(telegramNotificationId);
     }
 
+    private void createNewFacebookNotification(AirAlarmEntity airAlarm, AlarmType type) {
+        facebookAirAlarmNotifier.cancelAllNotification();
+        var telegramNotificationId = facebookAirAlarmNotifier.createNotification(type);
+        airAlarm.setFacebookNotificationId(telegramNotificationId);
+    }
+
     private void populateTelegramInfo(AirAlarmInfo alarmInfo, Long telegramNotificationId) {
         if (telegramNotificationId == null) {
             return;
@@ -82,7 +92,11 @@ public class AirAlarmService {
     }
 
     private void populateFacebookInfo(AirAlarmInfo alarmInfo, Long facebookNotificationId) {
-        var facebookInfo = telegramAirAlarmNotifier.checkNotification(facebookNotificationId);
+        if (facebookNotificationId == null) {
+            return;
+        }
+
+        var facebookInfo = facebookAirAlarmNotifier.checkNotification(facebookNotificationId);
 
         alarmInfo.setFacebookPublished(facebookInfo.isSent());
         alarmInfo.setFacebookPublishedAt(facebookInfo.getDeliveredAt());

@@ -2,12 +2,10 @@ package com.media.notifier;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.database.rider.core.api.dataset.DataSet;
-import com.github.database.rider.spring.api.DBRider;
 import com.media.notifier.air.alarm.impl.domain.model.AirAlarmInfo;
 import com.media.notifier.annotation.slices.ApplicationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.StandardCharsets;
@@ -32,6 +30,10 @@ class AirAlarmUserJourneyIT {
                 .andReturn().getResponse().getContentAsString();
         var initStatusInfo = jsonToObject(initStatusJson, AirAlarmInfo.class);
         assertThat(initStatusInfo.getStatus()).isEqualTo(AirAlarmInfo.Status.STOPPED);
+        assertThat(initStatusInfo.getTelegramPublished()).isNull();
+        assertThat(initStatusInfo.getTelegramPublishedAt()).isNull();
+        assertThat(initStatusInfo.getFacebookPublished()).isNull();
+        assertThat(initStatusInfo.getFacebookPublishedAt()).isNull();
 
         mockMvc.perform(put("/air_alarm/start"))
                 .andExpect(status().isOk());
@@ -46,6 +48,8 @@ class AirAlarmUserJourneyIT {
         assertThat(startedStatusInfo.getAlarmChangedAt()).isNotNull();
         assertThat(startedStatusInfo.getTelegramPublished()).isTrue();
         assertThat(startedStatusInfo.getTelegramPublishedAt()).isNotNull();
+        assertThat(startedStatusInfo.getFacebookPublished()).isTrue();
+        assertThat(startedStatusInfo.getFacebookPublishedAt()).isNotNull();
 
         mockMvc.perform(put("/air_alarm/stop"))
                 .andExpect(status().isOk());
@@ -60,6 +64,8 @@ class AirAlarmUserJourneyIT {
         assertThat(stoppedStatusInfo.getAlarmChangedAt()).isNotNull();
         assertThat(startedStatusInfo.getTelegramPublished()).isTrue();
         assertThat(startedStatusInfo.getTelegramPublishedAt()).isNotNull();
+        assertThat(startedStatusInfo.getFacebookPublished()).isTrue();
+        assertThat(startedStatusInfo.getFacebookPublishedAt()).isNotNull();
     }
 
     public <T> T jsonToObject(String json, Class<T> type) {
