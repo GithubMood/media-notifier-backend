@@ -30,7 +30,13 @@ public class WebSecurityConfiguration {
                 .cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/login").permitAll()
+                .antMatchers("/authentication/login",
+                        "/frontend/**",
+                        "/static/**",
+                        "/**.html",
+                        "/**.json",
+                        "/**.js",
+                        "/**.txt").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
