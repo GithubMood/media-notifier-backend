@@ -2,6 +2,7 @@ apply from: "$rootDir/gradle/scripts/unit-test.gradle"
 apply from: "$rootDir/gradle/scripts/integration-test.gradle"
 apply from: "$rootDir/gradle/scripts/query-dsl.gradle"
 apply plugin: 'org.springframework.boot'
+apply plugin: 'com.vaadin'
 apply plugin: 'com.palantir.git-version'
 
 ext {
@@ -36,4 +37,5 @@ dependencies {
     implementation project(":modules:api-gateway:impl")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.vaadin:vaadin-spring-boot-starter'
 }
