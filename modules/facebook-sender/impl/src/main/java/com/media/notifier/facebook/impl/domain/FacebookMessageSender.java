@@ -29,6 +29,7 @@ public class FacebookMessageSender {
 
     @Transactional
     public void sendMessage(FacebookNotificationEntity entity) {
+        log.info("Found facebook notification for sending");
         var facebookNotificationEntity = facebookNotificationRepository.findByIdMandatory(entity.getId());
 
         var message = getMessage(entity);
@@ -45,6 +46,7 @@ public class FacebookMessageSender {
         facebookNotificationEntity.setDeliveredAt(Time.currentDateTime());
 
         facebookNotificationRepository.save(facebookNotificationEntity);
+        log.info("Facebook message successfully sent");
     }
 
     private String addDateTime(String message) {

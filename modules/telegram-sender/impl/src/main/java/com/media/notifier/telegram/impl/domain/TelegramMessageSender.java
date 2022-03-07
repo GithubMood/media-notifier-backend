@@ -33,6 +33,7 @@ public class TelegramMessageSender {
 
     @Transactional
     public void sendMessage(TelegramNotificationEntity entity) {
+        log.info("Found telegram notification for sending");
         var telegramNotificationEntity = telegramNotificationRepository.findByIdMandatory(entity.getId());
 
         var message = getMessage(entity);
@@ -48,6 +49,7 @@ public class TelegramMessageSender {
         telegramNotificationEntity.setDeliveredAt(Time.currentDateTime());
 
         telegramNotificationRepository.save(telegramNotificationEntity);
+        log.info("Telegram notification successfully sent");
     }
 
     private String getMessage(TelegramNotificationEntity entity) {
