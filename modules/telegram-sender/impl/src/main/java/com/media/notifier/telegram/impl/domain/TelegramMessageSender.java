@@ -7,10 +7,14 @@ import com.media.notifier.telegram.impl.integration.db.entity.NotificationStatus
 import com.media.notifier.telegram.impl.integration.db.entity.TelegramNotificationEntity;
 import com.media.notifier.telegram.impl.integration.db.repository.TelegramNotificationRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.nio.charset.Charset;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TelegramMessageSender {
@@ -21,12 +25,19 @@ public class TelegramMessageSender {
     private static final String AIR_ALARM_START = ClassPathReader.readFile("messages/telegram_start_alarm.txt");
     private static final String AIR_ALARM_STOP = ClassPathReader.readFile("messages/telegram_stop_alarm.txt");
 
+    @PostConstruct
+    public void init() {
+        log.info("Default charset: " + Charset.defaultCharset().displayName());
+        log.info("Test: ❗❗❗Повітряна тривога❗❗❗Всім спуститися в укриття❗❗❗");
+    }
+
     @Transactional
     public void sendMessage(TelegramNotificationEntity entity) {
         var telegramNotificationEntity = telegramNotificationRepository.findByIdMandatory(entity.getId());
 
         var message = getMessage(entity);
         try {
+            log.info("Sending telegram message: " + message);
             telegramBotSender.sendMessage(message);
         } catch (Exception e) {
             telegramNotificationTerminateService.terminateNotification(telegramNotificationEntity.getId());

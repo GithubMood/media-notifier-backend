@@ -13,8 +13,8 @@ services:
   backend:
     depends_on:
       - mysql
-    image: docker.io/library/media-notifier:1.0.0--20220306161322-a0b21eed4d
+    image: docker.io/library/media-notifier:1.0.0--20220306184632-7b787f811d
     environment:
-      - MYSQL_HOST=jdbc:mysql://mysql:3306/test
+      - MYSQL_HOST=jdbc:mysql://localhost:3306/test
     ports:
       - "8080:8080"

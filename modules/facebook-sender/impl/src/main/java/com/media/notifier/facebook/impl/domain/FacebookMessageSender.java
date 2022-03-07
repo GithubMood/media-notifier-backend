@@ -34,6 +34,7 @@ public class FacebookMessageSender {
         var message = getMessage(entity);
         var messageWithDate = addDateTime(message);
         try {
+            log.info("Sending facebook message: " + messageWithDate);
             facebookBotSender.sendMessage(messageWithDate);
         } catch (Exception e) {
             facebookNotificationTerminateService.terminateNotification(facebookNotificationEntity.getId());

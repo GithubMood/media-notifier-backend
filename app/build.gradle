@@ -12,6 +12,7 @@ ext {
 bootJar {
     mainClass = "com.media.notifier.MediaNotifierApplication"
     archiveFileName = "${appName}-${appVersion}.${archiveExtension.get()}"
+    launchScript()
 }
 
 bootBuildImage {
