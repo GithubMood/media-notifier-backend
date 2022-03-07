@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 import java.util.TimeZone;
 
 public class Time {
-    private static Clock CLOCK = Clock.systemDefaultZone();
+    private static Clock CLOCK = Clock.systemDefaultZone().withZone(ZoneId.of("Europe/Kiev"));
     private static final TimeZone REAL_TIME_ZONE = TimeZone.getDefault();
 
     public static LocalDate currentDate() {
