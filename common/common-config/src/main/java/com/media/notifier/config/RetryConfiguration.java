@@ -1,4 +1,4 @@
-package com.media.notifier.facebook.impl.config;
+package com.media.notifier.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.annotation.EnableRetry;

@@ -1,51 +1,32 @@
 package com.media.notifier.telegram.impl.domain;
 
+import com.media.notifier.telegram.impl.integration.http.TelegramClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class TelegramBotSender {
+    @Value("${telegram.bot.token}")
     private final String telegramBotToken;
+    @Value("${telegram.chat.id}")
     private final String telegramChatId;
+    private final TelegramClient telegramClient;
 
-    public TelegramBotSender(@Value("${telegram.bot.token}") String telegramBotToken,
-                             @Value("${telegram.chat.id}") String telegramChatId) {
-        this.telegramBotToken = telegramBotToken;
-        this.telegramChatId = telegramChatId;
-    }
 
     @Retryable(value = Exception.class,
             maxAttempts = 10,
             backoff = @Backoff(delay = 5000))
     public void sendMessage(String message) {
         try {
-            String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
+            var response = telegramClient.publishMessage(telegramBotToken, telegramChatId, message);
 
-            urlString = String.format(urlString, telegramBotToken, telegramChatId, message);
-
-            URL url = new URL(urlString);
-            URLConnection conn = url.openConnection();
-
-            StringBuilder sb = new StringBuilder();
-            InputStream is = new BufferedInputStream(conn.getInputStream());
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String inputLine = "";
-            while ((inputLine = br.readLine()) != null) {
-                sb.append(inputLine);
-            }
-            String response = sb.toString();
-            // Do what you want with response
+            log.info("Successfully recieved telegram response: " + response);
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to send message", e);
         }

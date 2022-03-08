@@ -11,5 +11,6 @@ dependencies {
     implementation project(":common:common-config")
     implementation project(":modules:telegram-sender:api")
 
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
     implementation "org.springframework.retry:spring-retry"
 }

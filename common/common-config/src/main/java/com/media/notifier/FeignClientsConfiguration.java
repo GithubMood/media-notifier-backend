@@ -1,10 +1,9 @@
-package com.media.notifier.facebook.impl.config;
+package com.media.notifier;
 
-import com.media.notifier.facebook.impl.integration.http.FacebookClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableFeignClients(clients = FacebookClient.class)
+@EnableFeignClients
 public class FeignClientsConfiguration {
 }
