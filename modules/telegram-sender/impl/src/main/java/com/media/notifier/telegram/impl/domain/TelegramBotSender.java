@@ -26,7 +26,7 @@ public class TelegramBotSender {
         try {
             var response = telegramClient.publishMessage(telegramBotToken, telegramChatId, message);
 
-            log.info("Successfully recieved telegram response: " + response);
+            log.info("Successfully received telegram response: " + response);
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to send message", e);
         }
