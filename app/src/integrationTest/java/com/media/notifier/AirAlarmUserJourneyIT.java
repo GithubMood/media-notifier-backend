@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.media.notifier.air.alarm.impl.domain.model.AirAlarmInfo;
+import com.media.notifier.air.alarm.impl.integration.db.entity.AirAlarmStatus;
+import com.media.notifier.air.alarm.impl.integration.db.entity.MessageStatus;
 import com.media.notifier.annotation.slices.ApplicationTest;
 import com.media.notifier.gateway.web.dto.LoginRequest;
 import com.media.notifier.gateway.web.dto.LoginResponse;
@@ -48,11 +50,8 @@ class AirAlarmUserJourneyIT {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         var initStatusInfo = jsonToObject(initStatusJson, AirAlarmInfo.class);
-        assertThat(initStatusInfo.getStatus()).isEqualTo(AirAlarmInfo.Status.STOPPED);
-        assertThat(initStatusInfo.getTelegramPublished()).isNull();
-        assertThat(initStatusInfo.getTelegramPublishedAt()).isNull();
-        assertThat(initStatusInfo.getFacebookPublished()).isNull();
-        assertThat(initStatusInfo.getFacebookPublishedAt()).isNull();
+        assertThat(initStatusInfo.getStatus()).isEqualTo(AirAlarmStatus.STOPPED);
+        assertThat(initStatusInfo.getMessage()).isEmpty();
 
         mockMvc.perform(put("/air_alarm/start")
                         .header("Authorization", jwtToken))
@@ -65,12 +64,11 @@ class AirAlarmUserJourneyIT {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         var startedStatusInfo = jsonToObject(startedStatusJson, AirAlarmInfo.class);
-        assertThat(startedStatusInfo.getStatus()).isEqualTo(AirAlarmInfo.Status.STARTED);
+        assertThat(startedStatusInfo.getStatus()).isEqualTo(AirAlarmStatus.STARTED);
         assertThat(startedStatusInfo.getAlarmChangedAt()).isNotNull();
-        assertThat(startedStatusInfo.getTelegramPublished()).isTrue();
-        assertThat(startedStatusInfo.getTelegramPublishedAt()).isNotNull();
-        assertThat(startedStatusInfo.getFacebookPublished()).isTrue();
-        assertThat(startedStatusInfo.getFacebookPublishedAt()).isNotNull();
+        assertThat(startedStatusInfo.getMessage()).hasSize(2);
+        assertThat(startedStatusInfo.getMessage().get(0).getStatus()).isEqualTo(MessageStatus.DELIVERED);
+        assertThat(startedStatusInfo.getMessage().get(1).getStatus()).isEqualTo(MessageStatus.DELIVERED);
 
         mockMvc.perform(put("/air_alarm/stop")
                         .header("Authorization", jwtToken))
@@ -83,12 +81,11 @@ class AirAlarmUserJourneyIT {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         var stoppedStatusInfo = jsonToObject(stoppedStatusJson, AirAlarmInfo.class);
-        assertThat(stoppedStatusInfo.getStatus()).isEqualTo(AirAlarmInfo.Status.STOPPED);
+        assertThat(stoppedStatusInfo.getStatus()).isEqualTo(AirAlarmStatus.STOPPED);
         assertThat(stoppedStatusInfo.getAlarmChangedAt()).isNotNull();
-        assertThat(startedStatusInfo.getTelegramPublished()).isTrue();
-        assertThat(startedStatusInfo.getTelegramPublishedAt()).isNotNull();
-        assertThat(startedStatusInfo.getFacebookPublished()).isTrue();
-        assertThat(startedStatusInfo.getFacebookPublishedAt()).isNotNull();
+        assertThat(stoppedStatusInfo.getMessage()).hasSize(2);
+        assertThat(stoppedStatusInfo.getMessage().get(0).getStatus()).isEqualTo(MessageStatus.DELIVERED);
+        assertThat(stoppedStatusInfo.getMessage().get(1).getStatus()).isEqualTo(MessageStatus.DELIVERED);
     }
 
     public <T> T jsonToObject(String json, Class<T> type) {

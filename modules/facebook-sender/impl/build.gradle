@@ -10,6 +10,4 @@ dependencies {
     implementation project(":common:common-code")
     implementation project(":common:common-config")
     implementation project(":modules:facebook-sender:api")
-
-    implementation 'com.restfb:restfb:2022.3.1'
 }

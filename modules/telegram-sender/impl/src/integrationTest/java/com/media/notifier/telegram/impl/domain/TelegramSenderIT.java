@@ -1,6 +1,5 @@
 package com.media.notifier.telegram.impl.domain;
 
-import com.github.database.rider.core.api.dataset.DataSet;
 import com.media.notifier.telegram.impl.config.annotation.slices.ApplicationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +10,14 @@ class TelegramSenderIT {
     private TelegramBotSender telegramBotSender;
 
     @Test
-    @DataSet("dataset/air_alarm.xml")
     void sendMessage() throws InterruptedException {
         //GIVEN
         var message = "Test Message";
+        var chatId = "@my_test_channel_for_bot_1989";
+        var token = "5262822081:AAH2A89Nt5BLmVSoo18A-6qhcDIcZBkviOo";
 
         //WHEN
-        telegramBotSender.sendMessage(message);
+        telegramBotSender.sendMessage(chatId, token, message);
 
         //GIVEN
         //no exception

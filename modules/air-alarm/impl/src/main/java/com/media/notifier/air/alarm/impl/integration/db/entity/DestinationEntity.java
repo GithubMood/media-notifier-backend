@@ -1,11 +1,11 @@
-package com.media.notifier.facebook.impl.integration.db.entity;
+package com.media.notifier.air.alarm.impl.integration.db.entity;
 
-import com.media.notifier.common.alarm.dto.AlarmType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,38 +13,40 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "facebook_air_alarm")
+@Table(name = "destination")
 @Accessors(chain = true)
 @ToString(onlyExplicitlyIncluded = true)
-public class FacebookNotificationEntity {
+public class DestinationEntity {
     @Id
     @ToString.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ToString.Include
-    @Enumerated(EnumType.STRING)
-    private NotificationStatus status;
+    private String name;
 
     @ToString.Include
     @Enumerated(EnumType.STRING)
-    private AlarmType type;
+    private DestinationType type;
 
-    @ToString.Include
-    private LocalDateTime deliveredAt;
+    @ToString.Exclude
+    @Column(name = "destination_id")
+    private String destinationId;
 
+    @ToString.Exclude
+    @Column(name = "destination_token")
+    private String destinationToken;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FacebookNotificationEntity that = (FacebookNotificationEntity) o;
+        DestinationEntity that = (DestinationEntity) o;
         return id.equals(that.id);
     }
 

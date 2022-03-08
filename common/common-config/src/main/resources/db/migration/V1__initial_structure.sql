@@ -1,34 +1,36 @@
-create table telegram_air_alarm
-(
-    `id`           bigint auto_increment primary key,
-    `type`         varchar(255) not null,
-    `status`       varchar(255) not null,
-    `delivered_at` datetime(6) default null
-);
-
-create table facebook_air_alarm
-(
-    `id`           bigint auto_increment primary key,
-    `type`         varchar(255) not null,
-    `status`       varchar(255) not null,
-    `delivered_at` datetime(6) default null
-);
-
 create table air_alarm
 (
-    `id`                       int primary key,
-    `status`                   varchar(255) not null,
-    `alarm_changed_at`         datetime(6) default null,
-    `telegram_notification_id` bigint default null,
-    `facebook_notification_id` bigint default null,
-    constraint `fk_air_alarm_telegram_notification_id`
-        foreign key (`telegram_notification_id`)
-            references `telegram_air_alarm` (`id`)
+    `id`               int primary key,
+    `status`           varchar(255) not null,
+    `alarm_changed_at` datetime(6) default null
+);
+
+create table destination
+(
+    `id`                bigint auto_increment primary key,
+    `name`              varchar(255) not null,
+    `type`              varchar(255) not null,
+    `destination_id`    varchar(255) not null,
+    `destination_token` varchar(255) not null
+);
+
+create table message
+(
+    `id`             bigint auto_increment primary key,
+    `status`         varchar(255) not null,
+    `message`        varchar(255) not null,
+    `delivered_at`   datetime(6) default null,
+    `destination_id` bigint       not null,
+    constraint `fk_message_destination_id`
+        foreign key (`destination_id`)
+            references `destination` (`id`)
             on update cascade
-            on delete set null,
-    constraint `fk_air_alarm_facebook_notification_id`
-        foreign key (`facebook_notification_id`)
-            references `facebook_air_alarm` (`id`)
-            on update cascade
-            on delete set null
+            on delete cascade
+);
+
+create table user
+(
+    `id`       bigint auto_increment primary key,
+    `login`    varchar(255) not null,
+    `password` varchar(255) not null
 );
