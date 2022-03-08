@@ -24,7 +24,7 @@ public class AirAlarmInfo {
     LocalDateTime alarmChangedAt;
     private List<MessageInfo> message;
 
-    public boolean allMessagesProcessed() {
+    public boolean isAllMessagesProcessed() {
         return message.stream()
                 .allMatch(m -> m.getStatus() == MessageStatus.DELIVERED);
     }
