@@ -1,4 +1,4 @@
-package com.media.notifier.facebook.impl.config.annotation;
+package com.media.notifier.telegram.impl.config.annotation;
 
 import org.springframework.test.context.ActiveProfiles;
 
@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ActiveProfiles({"common", "test", "facebook-sender", "facebook-sender-test"})
+@ActiveProfiles({"common", "test", "telegram-sender", "telegram-sender-test"})
 public @interface ModuleProfiles {
 }
