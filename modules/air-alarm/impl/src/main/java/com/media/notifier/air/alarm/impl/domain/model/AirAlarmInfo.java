@@ -26,6 +26,6 @@ public class AirAlarmInfo {
 
     public boolean isAllMessagesProcessed() {
         return message.stream()
-                .allMatch(m -> m.getStatus() == MessageStatus.DELIVERED);
+                .allMatch(m -> m.getStatus() != MessageStatus.WAITING_FOR_DELIVERY);
     }
 }
